@@ -20,10 +20,15 @@
     var kellyWeeks = 6;
     $(document).ready(function(){
       $("#note").html("Based on a " + kellyWeeks + " week Kelly Day");
-      getDates("10/12/16");   
+      $("#date").on("change",function() {
+        var dateText = $("#date").val();
+        getDates(dateText); 
+      });  
     });
 
     function getDates(day){
+      $("#list").html("");
+      $("#note").html("Based on a " + kellyWeeks + " week Kelly Day starting on " + day);
       var kellyDay = new Date(day);
       for(var i=1;i<11;i++){
         kellyDay.setDate(kellyDay.getDate() + 7 * kellyWeeks);
@@ -50,7 +55,7 @@
 <div class="container">
   <h1>Calculate Kelly Days</h1>
   <p id="note"></p>
-
+  <input type="date" id="date"></input><span> Please Select a Start Date</span>
   <div class="container" id="list">
   </div>
 </div>
