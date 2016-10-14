@@ -19,9 +19,11 @@
   <script>
     var kellyWeeks = 6;
     $(document).ready(function(){
+      loadDate();
       $("#note").html("Based on a " + kellyWeeks + " week Kelly Day");
       $("#date").on("change",function() {
         var dateText = $("#date").val();
+        saveDate(dateText);
         getDates(dateText); 
       });  
     });
@@ -30,6 +32,7 @@
       $("#list").html("");
       $("#note").html("Based on a " + kellyWeeks + " week Kelly Day starting on " + day);
       var kellyDay = new Date(day);
+      kellyDay.setDate(kellyDay.getDate() + 1);
       for(var i=1;i<11;i++){
         kellyDay.setDate(kellyDay.getDate() + 7 * kellyWeeks);
         //kellyDay = kellyDay.setHours(0,0,0,0);
@@ -47,6 +50,19 @@
         $("#"+id).show('slow');
       },200*d);
       
+    }
+
+    function saveDate(day){
+      if(typeof(Storage) !== "undefined") {
+        localStorage.kellyday = day;
+      }
+    }
+
+    function loadDate(){
+      if (localStorage.kellyday) {
+        var startDay = localStorage.kellyday;
+        getDates(startDay);
+      }
     }
   </script>
 </head>
