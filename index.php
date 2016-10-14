@@ -23,7 +23,6 @@
   <style>
     .well{
       margin: 5px;
-      text-shadow: 2px 2px #ffffff;
       text-align: center;
       font: bold;
     }
@@ -52,12 +51,16 @@
         var k = kellyDay.toString().split(" ");
         var text = k[0]+" "+k[1]+" "+k[2]+" "+k[3];
         addItem(text,i);
+        color();
       }
+
+      //setTimeout(color,2000);
     }
 
     function addItem(text,d){
-      var id = Math.floor((Math.random() * 10000) + 1);
-      var i = '<div class="well well-sm" id="'+id+'"style="display: none;"><h3>'+text+'</h3></div>';
+      //var id = Math.floor((Math.random() * 10000) + 1);
+      var id = new Date(text).getTime();
+      var i = '<div class="well well-sm items" id="'+id+'"style="display: none;"><h3>'+text+'</h3></div>';
       $("#list").append(i);
       setTimeout(function(){
         $("#"+id).show('slow');
@@ -77,6 +80,31 @@
         getDates(startDay);
       }
     }
+
+    function color(){
+      var today = new Date().getTime();
+      var color = "#0000a8";
+      var next = 0;
+      $(".items").each(function(i,d){
+        var id = $(this).attr("id");
+        if(id >= today){
+          if(next == 0){
+            next = 1;
+            console.log(id);
+            var nk = new Date(0); // The 0 there is the key, which sets the date to the epoch
+            nk.setUTCSeconds(id);
+            //console.log(nk);
+            nk = nk.toString().split(" ");
+
+            //$("#next").html("Next Kelly Day is <b>" + nk[0] + " " + nk[1] + " " + nk[2] + " " + nk[3] + "</b>");
+          }
+          $(this).css("background",color);
+          $(this).css("color","white");
+          color = "#0000f0";
+        }
+        
+      });
+    }
   </script>
 </head>
 <body>
@@ -84,6 +112,7 @@
 <div class="container">
   <h1>Calculate Kelly Days</h1>
   <p id="note"></p>
+  <p id="next"></p>
   <input type="date" id="date"></input><span> Please Select a Start Date</span>
   <div class="container" id="list">
   </div>
