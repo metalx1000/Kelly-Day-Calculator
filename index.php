@@ -32,13 +32,13 @@
   <script>
     var kellyWeeks = 6;
     $(document).ready(function(){
-      loadDate();
       $("#note").html("Based on a " + kellyWeeks + " week Kelly Day");
       $("#date").on("change",function() {
         var dateText = $("#date").val();
         saveDate(dateText);
         getDates(dateText); 
       });  
+      loadDate();
     });
 
     function getDates(day){
