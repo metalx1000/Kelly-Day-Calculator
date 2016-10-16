@@ -90,13 +90,8 @@
         if(id >= today){
           if(next == 0){
             next = 1;
-            console.log(id);
-            var nk = new Date(0); // The 0 there is the key, which sets the date to the epoch
-            nk.setUTCSeconds(id);
-            //console.log(nk);
-            nk = nk.toString().split(" ");
-
-            //$("#next").html("Next Kelly Day is <b>" + nk[0] + " " + nk[1] + " " + nk[2] + " " + nk[3] + "</b>");
+            var nk = Math.floor((id-today)/86400000);
+            $("#next").html("Next Kelly Day is Approximately <b>" + nk +" Days</b> way.");
           }
           $(this).css("background",color);
           $(this).css("color","white");
