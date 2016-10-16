@@ -26,11 +26,19 @@
       text-align: center;
       font: bold;
     }
+
+    .alert{
+      display:none;
+    }
   </style>
 
   <script>
     var kellyWeeks = 6;
+    var nk, timer;
+    var isChrome = !!window.chrome && !!window.chrome.webstore;
+    
     $(document).ready(function(){
+      if(!isChrome){$(".alert").show()};
       $("#note").html("Based on a " + kellyWeeks + " week Kelly Day");
       $("#date").on("change",function() {
         var dateText = $("#date").val();
@@ -90,8 +98,9 @@
         if(id >= today){
           if(next == 0){
             next = 1;
-            var nk = Math.floor((id-today)/86400000);
-            $("#next").html("Next Kelly Day is Approximately <b>" + nk +" Days</b> way.");
+            nk = Math.floor((id-today)/86400000);
+            clearInterval(timer);
+            countDays();
           }
           $(this).css("background",color);
           $(this).css("color","white");
@@ -99,6 +108,19 @@
         }
         
       });
+    
+    }
+
+    function countDays(){
+      var i = 0;
+      timer = setInterval(function(){
+        $("#next").html("Next Kelly Day is Approximately <b>" + i +" Days</b> way.");
+        i++;
+        if(i==nk){
+          clearInterval(timer);
+          return;
+        }
+      },100);
     }
   </script>
 </head>
@@ -106,6 +128,10 @@
   
 <div class="container">
   <h1>Calculate Kelly Days</h1>
+  <div class="alert alert-warning">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Warning!</strong> Some Browsers might not work properly. Chrome is suggested. If dates are a day off, try choosing a start date the day before your real start date.
+  </div>
   <p id="note"></p>
   <p id="next"></p>
   <input type="date" id="date"></input><span> Please Select a Start Date</span>
