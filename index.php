@@ -36,12 +36,12 @@
     var kellyWeeks = 6;
     var nk, timer;
     var isChrome = !!window.chrome && !!window.chrome.webstore;
-    
+
     $(document).ready(function(){
-      if(!isChrome){$(".alert").show()};
+      //if(!isChrome){$(".alert").show()};
       $("#note").html("Based on a " + kellyWeeks + " week Kelly Day");
       $("#date").on("change",function() {
-        var dateText = $("#date").val();
+        var dateText = $(this).val();
         saveDate(dateText);
         getDates(dateText); 
       });  
@@ -52,9 +52,12 @@
       $("#list").html("");
       $("#note").html("Based on a " + kellyWeeks + " week Kelly Day starting on " + day);
       var kellyDay = new Date(day);
-      kellyDay.setDate(kellyDay.getDate() + 1);
+      var fixDay = new Date(day).getTime();
+      kellyDay = new Date(fixDay + 83400000);
+
       for(var i=1;i<11;i++){
-        kellyDay.setDate(kellyDay.getDate() + 7 * kellyWeeks);
+        kellyDay = new Date(kellyDay.getTime() + kellyWeeks * 7 * 86400000);
+        var x = new Date(kellyDay);
         //kellyDay = kellyDay.setHours(0,0,0,0);
         var k = kellyDay.toString().split(" ");
         var text = k[0]+" "+k[1]+" "+k[2]+" "+k[3];
